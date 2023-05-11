@@ -18,6 +18,7 @@ steps:
         github-token: ${{ secrets.GHCR_PAT }}
         image-repo: "github"
         image-name: "super-linter"
+        tag-pattern: "[0-9]\\.[0-9]+"
         debug: false
     
     - name: Just echo the output

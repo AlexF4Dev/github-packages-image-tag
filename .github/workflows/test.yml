@@ -1,0 +1,24 @@
+
+
+name: test
+
+on: [push, pull_request, workflow_dispatch]
+  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 'Get Version Of the Image'
+        uses: AlexF4Dev/github-packages-image-tag@master
+        id:  getVersion
+        with:
+          github-token: ${{ secrets.GHCR_PAT }}
+          image-repo: "github"
+          image-name: "super-linter"
+          debug: false
+        
+      - name: Just echo the output
+        run: echo '${{ steps.getVersion.outputs.result }}'             
+    

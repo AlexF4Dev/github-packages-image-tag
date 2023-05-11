@@ -1,0 +1,59 @@
+name: "github-packages-image-tag"
+description: "Returns latest image tag "
+branding:
+  icon: fast-forward
+  color: orange
+inputs:
+  github-token:
+    description: Github token with read access to github packages
+    required: true
+  image-repo:
+    description: "Docker image repository in [user/org]/[repository name] format"
+    required: true
+  image-name:
+    description: "Docker image to get the latest version"
+    required: true
+  tag-pattern:
+    description: "Pattern to filter the image tags"
+    required: false
+    default: "[0-9]\\.[0-9]+"
+  debug:
+    description: "Enables bash debug mode"
+    required: false
+    default: false
+outputs:
+  result:
+    description: "Output of the command"
+    value: ${{ steps.image-tag.outputs.result }}
+
+runs:
+  using: "composite"
+  steps:
+    - id: image-tag
+      shell: bash
+      run: |
+        if [ ${{ inputs.debug }} = "true" ]; then
+          set -x
+        fi
+
+        GITHUB_TOKEN=$(echo  ${{ inputs.github-token }}  | base64)
+        GITHUB_API_REST="/v2/${{ inputs.image-repo }}/${{ inputs.image-name }}/tags/list" 
+
+        GHCR_API="https://ghcr.io"
+        URL="${GHCR_API}${GITHUB_API_REST}"
+        LINK=$URL
+        ALL_DATA=""
+        
+        while [ "$LINK" ]; do
+          RESP=$(curl  -s -D -  "${URL}" -H "Authorization: Bearer $GITHUB_TOKEN" )
+          set +e
+          LINK=$(echo "$RESP" |   grep '^link:' |  grep -Po "(?<=<).*?(?=>)")  
+          set -e
+          DATA=$(echo "$RESP" | sed '1,/^\r$/d' |  jq .tags[])
+          URL="${GHCR_API}${LINK}"
+          ALL_DATA="$ALL_DATA $(echo "$DATA")"
+        done
+        
+        ALL_DATA=$(echo "$ALL_DATA" | grep  -Eo '${{ inputs.tag-pattern }}'  |  tail -1)
+
+        echo "result=${ALL_DATA}" >> $GITHUB_OUTPUT

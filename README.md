@@ -2,7 +2,7 @@
 
 [![test](https://github.com/AlexF4Dev/github-packages-image-tag/actions/workflows/test.yml/badge.svg)](https://github.com/AlexF4Dev/github-packages-image-tag/actions/workflows/test.yml)
 
-This [GitHub Action](https://github.com/features/actions) Gets latest iamge tag from GitHub packages
+This [GitHub Action](https://github.com/features/actions) Gets latest image tag from GitHub packages
 
 
 

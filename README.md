@@ -2,15 +2,13 @@
 
 [![test](https://github.com/AlexF4Dev/github-packages-image-tag/actions/workflows/test.yml/badge.svg)](https://github.com/AlexF4Dev/github-packages-image-tag/actions/workflows/test.yml)
 
-This [GitHub Action](https://github.com/features/actions) Gets latest image tag from GitHub packages
-
+This [GitHub Action](https://github.com/features/actions) gets latest image tag from GitHub packages
 
 
 ## Usage
 
 ```yaml
 steps:
-    # - uses: actions/checkout@v3    
     - name: 'Get Version Of the Image'
     uses: AlexF4Dev/github-packages-image-tag@master
     id:  getVersion

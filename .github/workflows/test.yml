@@ -14,7 +14,7 @@ jobs:
         uses: AlexF4Dev/github-packages-image-tag@master
         id:  getVersion
         with:
-          github-token: ${{ secrets.GHCR_PAT }}
+          github-token: ${{ secrets.github_token }}
           image-repo: "github"
           image-name: "super-linter"
           debug: false

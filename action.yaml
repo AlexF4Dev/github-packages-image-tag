@@ -6,7 +6,7 @@ branding:
 inputs:
   github-token:
     description: Github token with read access to github packages
-    required: true
+    required: false
   image-repo:
     description: "Docker image repository in [user/org]/[repository name] format"
     required: true
